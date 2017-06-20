@@ -93,4 +93,9 @@
     </None>
     <None Include="cvm_instruct.xlsx" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="README.md">
+      <Filter>Header Files</Filter>
+    </Text>
+  </ItemGroup>
 </Project>
