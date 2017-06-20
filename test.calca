@@ -1,0 +1,35 @@
+; calculator asm file
+;
+section data:
+x:
+    .data    ; "." means assembler-instruction
+    unit 100
+;
+section text:
+__main:
+    .code
+    pushu $x  ; sum limit
+    pushu $0  
+    get
+    pushu $0  ; sum variable
+    pushu $0  ; iter variable
+jmp_start:
+    spushu 3  ; i
+    spushu 3
+    int $10
+    spushu 1  ; x
+    subu      ; i-x (< 0)
+    jge $jmp_end
+    popu $0
+    spushu 2  ; s
+    spushu 3  ; i
+    addu      ; s + i
+    spopu 2   ; s = 
+    spushu 3  ; i
+    addu $1   ; ++
+    spopu 3
+    jmp $jmp_start
+jmp_end:
+    spushu 2
+    int $10
+    int $14

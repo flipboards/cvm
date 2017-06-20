@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+  <Type Name="cvm::Stack">
+    <DisplayString>{{size={size}}}</DisplayString>
+    <Expand>
+      <Item Name="size" ExcludeView="simple">size</Item>
+      <ArrayItems>
+        <Size>size</Size>
+        <ValuePointer>pool</ValuePointer>
+      </ArrayItems>
+    </Expand>
+  </Type>
+
+  <Type Name="cvm::Object">
+    <DisplayString Condition="type == 1">variable</DisplayString>
+    <DisplayString Condition="type == 2">function</DisplayString>
+    <DisplayString Condition="type == 4">built-in</DisplayString>
+    <DisplayString Condition="type == 3">native-func</DisplayString>
+    <Expand>
+      <Item Name="size" ExcludeView="simple">size</Item>
+      <ArrayItems>
+        <Size>size</Size>
+        <ValuePointer>val</ValuePointer>
+      </ArrayItems>
+    </Expand>
+  </Type>
+
+  <Type Name="cvm::ConstMemoryPool">
+    <DisplayString>{{size={size}}}</DisplayString>
+    <Expand>
+      <ArrayItems>
+        <Size>size</Size>
+        <ValuePointer>pool</ValuePointer>
+      </ArrayItems>
+    </Expand>
+  </Type>
+
+    <Type Name="cvm::CInput">
+        <DisplayString>{{staticvar={staticvar_num}, function={function_num}}}</DisplayString>
+        <Expand>
+            
+            <ArrayItems>
+                <Size>staticvar_num</Size>
+                <ValuePointer>staticvars</ValuePointer>
+            </ArrayItems>
+
+            <ArrayItems>
+                <Size>function_num</Size>
+                <ValuePointer>functions</ValuePointer>
+            </ArrayItems>
+        </Expand>
+    </Type>
+    
+    <Type Name ="cvm::CInput::StaticVar">
+        <DisplayString>{{size={size}}}</DisplayString>
+        <Expand>
+            <ArrayItems>
+                <Size>size</Size>
+                <ValuePointer>val</ValuePointer>
+            </ArrayItems>
+        </Expand>
+    </Type>
+
+    <Type Name="cvm::CInput::Function">
+        <DisplayString>{{size={size}}}</DisplayString>
+        <Expand>
+            <ArrayItems>
+                <Size>size</Size>
+                <ValuePointer>instructions</ValuePointer>
+            </ArrayItems>
+        </Expand>
+    </Type>
+</AutoVisualizer>
