@@ -1,6 +1,6 @@
 # CalcVM Instruction Set and Built-in Functions
 
-## Introduction
+## Introduction data structure
 An instruction is 4 bytes long, devided into three parts:
 - Code: 1 byte long
   - low 4 bit: Instruction type;
@@ -12,17 +12,14 @@ An instruction is 4 bytes long, devided into three parts:
 
 ## Memory Codes
 
-### Memory source
-- i: From immediate number;
-- a: From immediate address;
-- m: From memory address;
-- s: From stack;
+- Immediate number: For example, $1, $a, will be translated as immediate number;
+- Offset: Just plain number/symbol, will be translated as memory offset;
+- Immediate address: Symbol inside bracket, for example, (1), (a), will be translated into direct address;
+- Register address: Only %esp (stack ptr), %ebp (frame ptr), %pc (programe counter), %ret (return register) is valid.
 
-### Data width
-- u: 4 bytes long int;
-- f: 8 bytes long, float;
+## Assembly Codes
 
-## Codes
+Ending with 'u' means unit data type (pointer/int), 'f' means float data type.
 
 ### hlt
 [0x0] Simply stop the VM. Will release resources.
@@ -30,68 +27,100 @@ An instruction is 4 bytes long, devided into three parts:
 ### mov
 [0x1] Move data into specified address. Destination address is stored in stack top, but data can from instruction, memory address or stack top;
 
-- imovu: move from immediate number;
-- amovu: move from immediate address;
-- mmovu: move from another address stored in stack top;
-- smovu: move from stack top to address;
+### copy
+
+[0x2] Move data from one address to another.
 
 ### push
 
-[0x2] Push data to stack top. Source can be from immedate number or address.
+[0x3] Push data to stack top. Source can be from immedate number or address.
 
 ### pop
 
-[0x3] Pop data from stack top to specified address.
-
-- apopu: Pop to immediate address;
-- spopu: Pop to shift of frame pointer;
+[0x4] Pop data from stack top to specified address.
 
 ### Bin operators
 
-[0x4] All begin with 0x4, but with different subcodes.
+[0x5] Result is written into stack top;
 
 #### add
+[0x05]
 
 #### sub
+[0x15]
 
 #### mul
+[0x25]
 
 #### div
+[0x35]
+
+### mod
+[0x45]
 
 #### and
+[0x55]
 
 #### or
+[0x65]
 
 #### xor
+[0x75]
 
 ### Single Operators
-[0x5] 
+[0x6] 
 
 #### pass
-[0x0] Do nothing. 
+[0x06] Do nothing. 
 
 #### inc
-[0x1] Increment by one.
+[0x16] Increment by one.
 
 #### dec
-[0x2] Decrement by one.
+[0x26] Decrement by one.
 
 #### not
-[0x3] Perform bitwise not;
+[0x36] Perform bitwise not;
 
 ### Member-Get Operators
-[0x6]
+[0x7]
 
 #### get
+[0x07]
 
 #### set
+[0x17]
 
-### jmp
+### Jump
+
 [0xa] Jump to a specified address.
+
+#### jmp
+[0x0a]
+
+#### je
+[0x1a] Jump when stack top equals zero;
+
+#### jne
+[0x2a] Jump when stack top does not equal zero;
+
+#### jg
+[0x3a] Jump when stack top is greater than zero;
+
+#### jge
+[0x4a] Jump when stack top is greater or equal zero;
 
 ### call
 [0xb] Call a function by pointer stored in data or stack top.
 
-### ret
-[0xc] Return from a function call. Restore pc, stack pointer and frame pointer.
+### Return
+[0xc] 
 
+#### leave
+[0x0c] Return from a function call. Restore stack pointer and frame pointer.
+
+#### ret
+[0x1c] Return from a function call. Restore stack pointer and frame pointer and pc.
+
+### int
+[0xd] Interrupt the system. Arguemts should be placed in stack top.
